@@ -13,6 +13,12 @@ import { serviceOptions } from '../../../../core/models/serviceOptions';
 })
 export class OptionsComponent implements OnInit {
   optionsForm!: FormGroup;
+  
+  // AI Analysis properties
+  isAnalyzing = false;
+  aiSuggestions: string[] = [];
+  followUpQuestions: string[] = [];
+  hasAiAnalyzed = false;
 
   // Map device names to IDs
   deviceIdMap: {[key: string]: number} = {
@@ -128,9 +134,10 @@ export class OptionsComponent implements OnInit {
           this.updateBookingPrinterDevices();
         });
       } else if (key === 'description') {
-        // Add listener for description changes
-        deviceGroup.get(key)?.valueChanges.subscribe(() => {
+        // Add listener for description changes with AI analysis
+        deviceGroup.get(key)?.valueChanges.subscribe((value: string) => {
           this.updateBookingPrinterDevices();
+          this.handleDescriptionChange(value);
         });
       } else {
         deviceGroup.get(key)?.valueChanges.subscribe((checked: boolean) => {
@@ -414,5 +421,124 @@ export class OptionsComponent implements OnInit {
         key !== 'description' && 
         !['windowsComputer', 'appleMac', 'androidSmartphone', 'appleDevice', 'andere', 'keine'].includes(key)
       ).length > 0;
+  }
+
+  private handleDescriptionChange(description: string): void {
+    // Reset AI state when description is significantly changed
+    if (this.hasAiAnalyzed && description.length < 50) {
+      this.resetAiAnalysis();
+    }
+    
+    // Trigger AI analysis when description reaches good length and hasn't been analyzed yet
+    if (description.length >= 30 && !this.hasAiAnalyzed && !this.isAnalyzing) {
+      this.analyzeWithAI(description);
+    }
+  }
+
+  private analyzeWithAI(description: string): void {
+    this.isAnalyzing = true;
+    this.aiSuggestions = [];
+    this.followUpQuestions = [];
+    
+    // Simulate AI processing delay
+    setTimeout(() => {
+      const analysis = this.getMockAIAnalysis(description);
+      this.aiSuggestions = analysis.suggestions;
+      this.followUpQuestions = analysis.questions;
+      this.hasAiAnalyzed = true;
+      this.isAnalyzing = false;
+    }, 1500);
+  }
+
+  private getMockAIAnalysis(description: string): {suggestions: string[], questions: string[]} {
+    const lowerDesc = description.toLowerCase();
+    
+    // Mock AI responses based on keywords
+    if (lowerDesc.includes('fernseher') || lowerDesc.includes('tv')) {
+      return {
+        suggestions: [
+          'Ihr Problem scheint mit einem Fernseher zusammenzuhängen.',
+          'Häufige TV-Probleme betreffen Verbindungseinstellungen oder Software-Updates.'
+        ],
+        questions: [
+          'Um welches TV-Modell und welche Marke handelt es sich?',
+          'Was genau funktioniert nicht - kein Bild, kein Ton, oder startet der Fernseher nicht?',
+          'Sind alle Kabel richtig angeschlossen?'
+        ]
+      };
+    } else if (lowerDesc.includes('drucker') || lowerDesc.includes('drucken')) {
+      return {
+        suggestions: [
+          'Sie haben ein Problem mit dem Drucken.',
+          'Druckerprobleme sind oft auf Treiberprobleme oder Verbindungseinstellungen zurückzuführen.'
+        ],
+        questions: [
+          'Welche Drucker-Marke und welches Modell verwenden Sie?',
+          'Erscheint eine Fehlermeldung? Wenn ja, welche?',
+          'Ist der Drucker über WLAN oder USB verbunden?'
+        ]
+      };
+    } else if (lowerDesc.includes('internet') || lowerDesc.includes('wlan') || lowerDesc.includes('wifi')) {
+      return {
+        suggestions: [
+          'Ihr Problem betrifft anscheinend die Internetverbindung.',
+          'WLAN-Probleme können verschiedene Ursachen haben.'
+        ],
+        questions: [
+          'Funktioniert das Internet auf anderen Geräten?',
+          'Blinken Lichter am Router ungewöhnlich?',
+          'Seit wann besteht das Problem?'
+        ]
+      };
+    } else if (lowerDesc.includes('email') || lowerDesc.includes('e-mail') || lowerDesc.includes('mail')) {
+      return {
+        suggestions: [
+          'Sie haben Schwierigkeiten mit E-Mails.',
+          'E-Mail-Probleme können mit Einstellungen oder Passwörtern zusammenhängen.'
+        ],
+        questions: [
+          'Welches E-Mail-Programm verwenden Sie (Outlook, Thunderbird, etc.)?',
+          'Können Sie E-Mails empfangen, aber nicht senden, oder umgekehrt?',
+          'Erscheint eine spezielle Fehlermeldung?'
+        ]
+      };
+    } else if (lowerDesc.includes('langsam') || lowerDesc.includes('slow')) {
+      return {
+        suggestions: [
+          'Ihr Gerät scheint langsam zu sein.',
+          'Performance-Probleme können verschiedene Ursachen haben.'
+        ],
+        questions: [
+          'Seit wann ist das Gerät langsam?',
+          'Betrifft die Langsamkeit das ganze System oder nur bestimmte Programme?',
+          'Haben Sie kürzlich neue Software installiert?'
+        ]
+      };
+    } else {
+      return {
+        suggestions: [
+          'Ihre Problembeschreibung wurde analysiert.',
+          'Für eine bessere Hilfe wären noch einige Details hilfreich.'
+        ],
+        questions: [
+          'Können Sie das Problem genauer beschreiben?',
+          'Seit wann tritt das Problem auf?',
+          'Haben Sie bereits Lösungsversuche unternommen?'
+        ]
+      };
+    }
+  }
+
+  private resetAiAnalysis(): void {
+    this.hasAiAnalyzed = false;
+    this.aiSuggestions = [];
+    this.followUpQuestions = [];
+    this.isAnalyzing = false;
+  }
+
+  addSuggestionToDescription(suggestion: string): void {
+    const currentDescription = this.optionsForm.get('devices')?.get('description')?.value || '';
+    const newDescription = currentDescription + ' ' + suggestion;
+    this.optionsForm.get('devices')?.get('description')?.setValue(newDescription.trim());
   }
 }

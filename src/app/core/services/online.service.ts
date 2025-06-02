@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Booking } from '../models/booking';
-import { HttpHeaders} from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { catchError, Observable, throwError } from 'rxjs';
-import { ApiUrls } from '../../api.urls';
+import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
-import { RequestBookTask } from '../models/Request/RequestBookTask';
-import { serviceOptions } from '../models/serviceOptions';
 
 @Injectable({
   providedIn: 'root'

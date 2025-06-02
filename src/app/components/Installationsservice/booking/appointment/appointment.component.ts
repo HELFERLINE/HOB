@@ -403,6 +403,7 @@ export class AppointmentComponent implements OnInit {
       // Reset the selected service to unselected option
       this.booking.selectedService = serviceOptions.unselected;
       this.onlineService.setBooking(this.booking);
+      this.onlineService.setCurrentStep(1);
     } else {
       if (this.currentStep > 1) {
         if (this.detailsValidated) {

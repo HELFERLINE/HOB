@@ -22,8 +22,8 @@ export class FrequentQuestionsComponent {
   frequentQuestions: frequentQuestion[] = [
     {
       id: 1,
-      question: 'Was beinhaltet der O₂ Installationsservice?',
-      answer: 'Der O₂ Installationsservice beinhaltet je nach Wunsch max. folgende Leistungen: Anschluss und Einrichtung eines Routers (auch Fremdhardware), Anschluss eines bereits vorhandenen Festnetztelefons, Einrichtung des WLAN-Zugangs auf Endgeräten wie Smartphone, Tablet, Smart-TV und Smart-Home-Basis. Zudem erhältst du Tipps zur WLAN-Optimierung. Leistungen, die darüber hinaus gehen, können kostenpflichtig in Anspruch genommen werden. Der Installationsservice ersetzt keine technischen Arbeiten, wie das Verlegen neuer Leitungen oder das erstmalige Herstellen eines Anschlusses. Diese erfolgen im Vorfeld durch unseren Technikdienst.',
+      question: 'ABC',
+      answer: 'ABC',
       isToggled: false
     }
   ]
