@@ -1,0 +1,139 @@
+.confirmation {
+    width: 100vw;
+}
+h1 {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 36px;
+    color: #1F516C;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 3rem;
+}
+
+.h2-first {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #00001E;
+    width: 60%;
+    margin: auto;
+}
+
+.p-first {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #00001E;
+    width: 60%;
+    margin: auto;
+    padding-top: 1rem;
+}
+
+.h2-second {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #00001E;
+    width: 60%;
+    margin: auto;
+    padding-top: 2rem;
+}
+
+.p-second {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #00001E;
+    width: 60%;
+    margin: auto;
+    padding-top: 1rem;
+
+}
+
+h3 {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #1F516C;
+    width: 60%;
+    margin: auto;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+/* Media Queries for Responsive Design */
+@media screen and (max-width: 768px) {
+    h1, 
+    .h2-first, 
+    .p-first, 
+    .h2-second, 
+    .p-second, 
+    h3 {
+        width: 85%;
+    }
+
+    h1 {
+        font-size: 28px;
+        line-height: 32px;
+        margin-bottom: 2rem;
+    }
+    
+    .h2-first, 
+    .h2-second, 
+    h3 {
+        font-size: 18px;
+        line-height: 22px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    h1, 
+    .h2-first, 
+    .p-first, 
+    .h2-second, 
+    .p-second, 
+    h3 {
+        width: 92%;
+    }
+
+    h1 {
+        font-size: 24px;
+        line-height: 28px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .h2-first, 
+    .h2-second, 
+    h3 {
+        font-size: 16px;
+        line-height: 20px;
+    }
+    
+    .p-first, 
+    .p-second {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .h2-second {
+        padding-top: 1.5rem;
+    }
+    
+    h3 {
+        padding-top: 1.5rem;
+        padding-bottom: 0.75rem;
+    }
+}

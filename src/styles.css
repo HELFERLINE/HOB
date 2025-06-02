@@ -1,0 +1,315 @@
+:root {
+  /* !!!COLORS!!! */
+  /* Brand Colors */
+  --color-primary: #088acd;
+  --color-secondary: #48b9ff;
+  --color-tertiary: #7fc9f6;
+
+  /* Accent Colors */
+  --accent-primary: #c5a1ff;
+  --accent-secondary: #9f5de1;
+  --accent-tertiary: #a298ff;
+
+  /* Info Colors */
+  --color-success: #1b9c85;
+  --color-success-light: #1b9c85;
+  --color-danger: #ff6669;
+  --color-danger-light: #ff6669;
+  --color-warning: #f7d060;
+  --color-warning-light: #f7d060;
+
+  /* Text & Background Colors */
+  --primary-text: #181a1e;
+  --secondary-text: #4a4d53;
+  --neutral: #c1c4c9;
+  --secondary-background: #f4f6fc;
+  --neutral-background: #fff;
+  --primary-background: #f7f7f7;
+
+  --card-background: rgba(243, 245, 252, 0.6);
+
+  --color-light: #b8b8b83e;
+
+  /* !!!FONTS!!! */
+  /* Font Family */
+  --font-family: 'Noto Sans';
+
+  /* Font Sizes */
+  --font-size-xl: 1.4rem;
+  --font-size-l: 1rem;
+  --font-size-m: 0.85rem;
+  --font-size-s: 0.75rem;
+
+  /* Font Weights */
+  --font-weight-xl: 800;
+  --font-weight-l: 600;
+  --font-weight-m: 500;
+  --font-weight-s: 400;
+
+  /* !!!SPACING!!! */
+  /* Border Radius */
+  --border-radius-primary: 12px;
+  --border-radius-secondary: 6px;
+
+  /* Padding */
+  --padding-primary: 18px;
+  --padding-secondary: 12px;
+
+  /* Box Shadow */
+  --box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+  --box-shadow-passive: 0 20px 30px rgba(0, 0, 0, 0.2);
+  --box-shadow-passive-lightonly: 0 20px 30px rgba(0, 0, 0, 0.2);
+  --box-shadow-active: 0px 20px 30px rgba(0, 0, 0, 0.5);
+}
+
+:root.dark-mode-theme {
+  --primary-text: #f4f6fc;
+  --secondary-text: #b0b3b8;
+  --neutral: #4a4d53;
+  --secondary-background: #202528;
+  --neutral-background: #1b1f22;
+  --primary-background: #181a1e;
+
+  --card-background: #141518f2;
+
+  --color-light: rgba(0, 0, 0, 0.4);
+  --box-shadow-passive-lightonly: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+}
+
+body {
+  background-color: var(--primary-background);
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.address-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+  width: 60%;
+  margin: auto;
+}
+
+.address-row:last-child {
+  margin-bottom: 2rem;
+}
+
+.address-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: 16px;
+  gap: 8px;
+}
+
+.address-container .address-title {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #00001e;
+}
+
+.address-container svg {
+  vertical-align: middle;
+  width: 12px;
+}
+
+.address-container select {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #d4d6d9;
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' clip-rule='evenodd' d='M16.8795 5.99142C16.5919 5.75962 16.1911 5.7828 15.9262 6.06096L10.25 12.0209L4.57393 6.06096C4.28493 5.75751 3.8342 5.75751 3.5452 6.06096C3.4079 6.20512 3.33337 6.39098 3.33337 6.58337C3.33337 6.77577 3.4079 6.96163 3.5452 7.10579L9.73567 13.6058C10.0247 13.9092 10.4754 13.9092 10.7644 13.6058L16.9549 7.10579C17.2373 6.80924 17.2373 6.35751 16.9549 6.06096L16.8795 5.99142Z' fill='%231F516C'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.address-container input {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #d4d6d9;
+  border-radius: 4px;
+}
+
+.address-container input[formControlName]:invalid.ng-touched:focus,
+.address-container input.ng-invalid.ng-touched:focus,
+.address-container input.ng-invalid.ng-dirty:focus,
+.address-container select[formControlName]:invalid.ng-touched:focus,
+.address-container select.ng-invalid.ng-touched:focus,
+.address-container select.ng-invalid.ng-dirty:focus {
+  border: 1px solid var(--color-primary);
+  background-color: #ffffff;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.address-container input[formControlName]:invalid.ng-touched,
+.address-container input.ng-invalid.ng-touched,
+.address-container input.ng-invalid.ng-dirty,
+.address-container select[formControlName]:invalid.ng-touched,
+.address-container select.ng-invalid.ng-touched,
+.address-container select.ng-invalid.ng-dirty {
+  border: 1px solid #f65c7d;
+  background-color: #fff8fa;
+  transition: all 0.3s ease-in-out;
+}
+
+.address-container input.invalid,
+.address-container select.invalid {
+  border: 1px solid #f65c7d;
+  background-color: #fff8fa;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Add these styles to your existing CSS */
+
+.invalid {
+  border: 1px solid #f65d7c !important;
+  background-color: #fff8fa !important;
+}
+
+.error-message {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  color: #c04961;
+}
+
+.address-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d4d6d9;
+  border-radius: 4px;
+  font-family: "Noto Sans";
+  font-size: 16px;
+  transition: all 0.3s ease-in-out;
+}
+
+.address-input:focus {
+  border: 1px solid #1f516c;
+  outline: none;
+}
+
+/* Responsive styles for mobile devices */
+@media screen and (max-width: 768px) {
+  .address-row {
+    flex-direction: column;
+    width: 85%;
+    gap: 12px;
+  }
+  
+  .address-container {
+    padding-bottom: 8px;
+    gap: 6px;
+  }
+  
+  .address-container .address-title {
+    font-size: 15px;
+    line-height: 22px;
+  }
+  
+  .address-container input,
+  .address-container select,
+  .address-input {
+    padding: 10px 14px;
+  }
+  
+  .address-container select {
+    background-position: right 10px center;
+    padding-right: 32px;
+  }
+  
+  .error-message {
+    font-size: 13px;
+    line-height: 20px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .address-row {
+    width: 92%;
+    gap: 8px;
+  }
+  
+  .address-container {
+    padding-bottom: 6px;
+    gap: 4px;
+  }
+  
+  .address-container .address-title {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  
+  .address-container input,
+  .address-container select,
+  .address-input {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  .address-container select {
+    background-position: right 8px center;
+  }
+  
+  .error-message {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+.data-container .info-text {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #73737D;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  width: 85%;
+}
+
+.info-section .info-text {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #00001E;
+}
+
+@media (max-width: 768px) {
+.data-container .info-text {
+  width: 90%;
+}
+}

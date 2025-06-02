@@ -1,0 +1,96 @@
+<div class="overview">
+    <h1 class="overview-title">Übersicht</h1>
+    <div class="service">
+        <h1 class="section-title">Dein gebuchter Service</h1>
+        <div class="service-section-content">
+            <div class="service-name has-description">
+                <p class="service-name-title">1. Expertenservice</p>
+                <p class="service-name-description">€ 19,00 pro 15min</p>
+            </div>
+            @if (this.booking.selectedDeviceIds) {
+                <div class="service-name description">
+                    <p class="service-name-title">Betroffene Geräte:</p>
+                    <p class="service-name-description">{{ displayDevices(this.booking.selectedDeviceIds) }}</p>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="address">
+        <h1 class="section-title">Deine Anschrift</h1>
+        <div class="address-section-content">
+            <!-- Standard address fields -->
+            <div class="address-name">
+                <p class="address-name-title">Anrede:</p>
+                <p class="address-name-description">{{ this.booking.address?.salutation }}</p>
+            </div>
+            <div class="address-name">
+                <p class="address-name-title">Vorname:</p>
+                <p class="address-name-description">{{ this.booking.address?.firstName }}</p>
+            </div>
+            <div class="address-name">
+                <p class="address-name-title">Nachname:</p>
+                <p class="address-name-description">{{ this.booking.address?.lastName }}</p>
+            </div>
+            <div class="address-name">
+                <p class="address-name-title">Straße:</p>
+                <p class="address-name-description">{{ this.booking.address?.street }}</p>
+            </div>
+            <div class="address-name">
+                <p class="address-name-title">Hausnummer:</p>
+                <p class="address-name-description">{{ this.booking.address?.houseNumber }}</p>
+            </div>
+            <div class="address-name">
+                <p class="address-name-title">Postleitzahl:</p>
+                <p class="address-name-description">{{ this.booking.address?.postalCode }}</p>
+            </div>
+            <div class="address-name">
+                <p class="address-name-title">Ort:</p>
+                <p class="address-name-description">{{ this.booking.address?.city }}</p>
+            </div>
+            <div class="address-name">
+                <p class="address-name-title">E-Mail-Adresse:</p>
+                <p class="address-name-description">{{ this.booking.contactDetails?.email }}</p>
+            </div>
+            <div class="address-name">
+                <p class="address-name-title">Telefonnummer:</p>
+                <p class="address-name-description">{{ this.booking.contactDetails?.phoneNumber }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="appointment">
+        <h1 class="section-title">Mögliche Termine</h1>
+        <div class="appointment-section-content">
+            @for (appointment of this.booking.appointmentSuggestions; track appointment; let i = $index) {
+            <div class="appointment-name">
+                <p class="appointment-name-title">{{ i + 1 }}. Termin Uhrzeit:</p>
+                <div class="appointment-name-description">
+                    <p>{{ displayDate(appointment.date) }}</p>
+                    <p>{{ displayTime(appointment.startTime, appointment.endTime)}}</p>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+
+    @if( this.errorMessage) {
+    <div class="error-message alert alert-danger">
+        {{ errorMessage }}
+    </div>
+}
+    <div class="cta">
+        <button class="btn-back" (click)="goBack()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.6754 3.62063C13.9073 3.9082 13.8841 4.30902 13.6059 4.57393L7.646 10.25L13.6059 15.9262C13.9094 16.2151 13.9094 16.6659 13.6059 16.9549C13.4618 17.0922 13.2759 17.1667 13.0835 17.1667C12.8911 17.1667 12.7052 17.0922 12.5611 16.9549L6.06108 10.7644C5.75763 10.4754 5.75763 10.0247 6.06108 9.73567L12.5611 3.5452C12.8576 3.26277 13.3094 3.26277 13.6059 3.5452L13.6754 3.62063Z" fill="#1F516C"/>
+            </svg>
+            <span>Zurück</span>
+        </button>
+        <button class="btn-next" (click)="goForward()" [disabled]="isSubmitting">
+            @if (isSubmitting) {
+                <div class="spinner"></div>
+                <span>Buchungsanfrage wird gesendet...</span>
+            } @else {
+                <span>Verbindlich buchen</span>
+            }
+        </button>
+    </div>
+</div>

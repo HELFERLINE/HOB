@@ -1,0 +1,171 @@
+<div class="address">
+    @if (this.booking.isKulanz === false && this.booking.isB2B === false) {
+        <h1>Meine Anschrift</h1>
+    } @else if (this.booking.isKulanz === true) {
+        <h1>Kund:innenanschrift</h1>
+    } @else if (this.booking.isB2B === true) {
+        <h1>Ihre Anschrift</h1>
+    }
+    <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+        <div class="address-row">
+            <div class="address-container">
+                <p class="address-title">Anrede
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.84 5.53599L2.048 3.80799L1.024 4.57599C0.938667 4.65066 0.853333 4.68799 0.768 4.68799C0.650667 4.68799 0.554667 4.61866 0.48 4.47999L0 3.67999L1.552 3.00799L0.384 2.49599C0.224 2.41066 0.144 2.30399 0.144 2.17599C0.144 2.10132 0.165333 2.02666 0.208 1.95199L0.704 1.16799L2.048 2.19199L1.888 0.879989C1.86667 0.741323 1.888 0.639989 1.952 0.575989C2.016 0.501322 2.11733 0.463989 2.256 0.463989H3.264L3.072 2.19199L4.08 1.40799C4.15467 1.33332 4.23467 1.29599 4.32 1.29599C4.43733 1.29599 4.53867 1.36532 4.624 1.50399L5.12 2.31999L3.552 3.00799L4.736 3.51999C4.896 3.59466 4.976 3.70132 4.976 3.83999C4.976 3.90399 4.95467 3.97332 4.912 4.04799L4.4 4.83199L3.072 3.80799L3.216 5.11999C3.22667 5.25866 3.2 5.36532 3.136 5.43999C3.072 5.50399 2.976 5.53599 2.848 5.53599H1.84Z" fill="#F65D7C"/>
+                    </svg>
+                </p>
+                <select class="address-input" formControlName="salutation" 
+                    [class.invalid]="addressForm.get('salutation')?.invalid && (addressForm.get('salutation')?.touched || formSubmitted)">
+                    <option value="">Bitte wählen</option>
+                    <option value="Herr">Herr</option>
+                    <option value="Frau">Frau</option>
+                    <option value="Divers">Divers</option>
+                </select>
+                @if (addressForm.get('salutation')?.invalid && (addressForm.get('salutation')?.touched || formSubmitted)) {
+                    <p class="error-message">
+                        Bitte wähle eine Anrede
+                    </p>
+                }
+            </div>
+            <div class="address-container">
+                <p class="address-title">Titel</p>
+                <input class="address-input" type="text" formControlName="title" placeholder="Optional" />
+            </div>
+        </div>
+        <div class="address-row">
+            <div class="address-container">
+                <p class="address-title">Vorname
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.84 5.53599L2.048 3.80799L1.024 4.57599C0.938667 4.65066 0.853333 4.68799 0.768 4.68799C0.650667 4.68799 0.554667 4.61866 0.48 4.47999L0 3.67999L1.552 3.00799L0.384 2.49599C0.224 2.41066 0.144 2.30399 0.144 2.17599C0.144 2.10132 0.165333 2.02666 0.208 1.95199L0.704 1.16799L2.048 2.19199L1.888 0.879989C1.86667 0.741323 1.888 0.639989 1.952 0.575989C2.016 0.501322 2.11733 0.463989 2.256 0.463989H3.264L3.072 2.19199L4.08 1.40799C4.15467 1.33332 4.23467 1.29599 4.32 1.29599C4.43733 1.29599 4.53867 1.36532 4.624 1.50399L5.12 2.31999L3.552 3.00799L4.736 3.51999C4.896 3.59466 4.976 3.70132 4.976 3.83999C4.976 3.90399 4.95467 3.97332 4.912 4.04799L4.4 4.83199L3.072 3.80799L3.216 5.11999C3.22667 5.25866 3.2 5.36532 3.136 5.43999C3.072 5.50399 2.976 5.53599 2.848 5.53599H1.84Z" fill="#F65D7C"/>
+                    </svg>
+                </p>
+                <input class="address-input" type="text" formControlName="firstName" placeholder="Vorname" 
+                    [class.invalid]="addressForm.get('firstName')?.invalid && (addressForm.get('firstName')?.touched || formSubmitted)" />
+                @if (addressForm.get('firstName')?.invalid && (addressForm.get('firstName')?.touched || formSubmitted)) {
+                    <p class="error-message">
+                        @if (addressForm.get('firstName')?.errors?.['required']) {
+                                Bitte gib deinen Vornamen ein
+                        } @else if (addressForm.get('firstName')?.errors?.['minlength']) {
+                            Der Vorname muss mindestens 2 Zeichen lang sein
+                        } @else if (addressForm.get('firstName')?.errors?.['invalidName']) {
+                            Der Vorname darf nur Buchstaben (einschließlich internationaler Zeichen), Leerzeichen, Bindestriche und Apostrophe enthalten
+                        }
+                    </p>
+                }
+            </div>
+            <div class="address-container">
+                <p class="address-title">Nachname
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.84 5.53599L2.048 3.80799L1.024 4.57599C0.938667 4.65066 0.853333 4.68799 0.768 4.68799C0.650667 4.68799 0.554667 4.61866 0.48 4.47999L0 3.67999L1.552 3.00799L0.384 2.49599C0.224 2.41066 0.144 2.30399 0.144 2.17599C0.144 2.10132 0.165333 2.02666 0.208 1.95199L0.704 1.16799L2.048 2.19199L1.888 0.879989C1.86667 0.741323 1.888 0.639989 1.952 0.575989C2.016 0.501322 2.11733 0.463989 2.256 0.463989H3.264L3.072 2.19199L4.08 1.40799C4.15467 1.33332 4.23467 1.29599 4.32 1.29599C4.43733 1.29599 4.53867 1.36532 4.624 1.50399L5.12 2.31999L3.552 3.00799L4.736 3.51999C4.896 3.59466 4.976 3.70132 4.976 3.83999C4.976 3.90399 4.95467 3.97332 4.912 4.04799L4.4 4.83199L3.072 3.80799L3.216 5.11999C3.22667 5.25866 3.2 5.36532 3.136 5.43999C3.072 5.50399 2.976 5.53599 2.848 5.53599H1.84Z" fill="#F65D7C"/>
+                    </svg> 
+                </p>
+                <input class="address-input" type="text" formControlName="lastName" placeholder="Nachname" 
+                    [class.invalid]="addressForm.get('lastName')?.invalid && (addressForm.get('lastName')?.touched || formSubmitted)" />
+                @if (addressForm.get('lastName')?.invalid && (addressForm.get('lastName')?.touched || formSubmitted)) {
+                    <p class="error-message">
+                        @if (addressForm.get('lastName')?.errors?.['required']) {
+                        Bitte gib deinen Nachnamen ein
+                        } @else if (addressForm.get('lastName')?.errors?.['minlength']) {
+                            Der Nachname muss mindestens 2 Zeichen lang sein
+                        } @else if (addressForm.get('lastName')?.errors?.['invalidName']) {
+                            Der Nachname darf nur Buchstaben (einschließlich internationaler Zeichen), Leerzeichen, Bindestriche und Apostrophe enthalten
+                        }
+                    </p>
+                }
+            </div>
+        </div>
+        <div class="address-row">
+            <div class="address-container">
+                <p class="address-title">Straße
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.84 5.53599L2.048 3.80799L1.024 4.57599C0.938667 4.65066 0.853333 4.68799 0.768 4.68799C0.650667 4.68799 0.554667 4.61866 0.48 4.47999L0 3.67999L1.552 3.00799L0.384 2.49599C0.224 2.41066 0.144 2.30399 0.144 2.17599C0.144 2.10132 0.165333 2.02666 0.208 1.95199L0.704 1.16799L2.048 2.19199L1.888 0.879989C1.86667 0.741323 1.888 0.639989 1.952 0.575989C2.016 0.501322 2.11733 0.463989 2.256 0.463989H3.264L3.072 2.19199L4.08 1.40799C4.15467 1.33332 4.23467 1.29599 4.32 1.29599C4.43733 1.29599 4.53867 1.36532 4.624 1.50399L5.12 2.31999L3.552 3.00799L4.736 3.51999C4.896 3.59466 4.976 3.70132 4.976 3.83999C4.976 3.90399 4.95467 3.97332 4.912 4.04799L4.4 4.83199L3.072 3.80799L3.216 5.11999C3.22667 5.25866 3.2 5.36532 3.136 5.43999C3.072 5.50399 2.976 5.53599 2.848 5.53599H1.84Z" fill="#F65D7C"/>
+                    </svg>
+                </p>
+                <input class="address-input" type="text" formControlName="street" placeholder="Straße" 
+                    [class.invalid]="addressForm.get('street')?.invalid && (addressForm.get('street')?.touched || formSubmitted)" />
+                @if (addressForm.get('street')?.invalid && (addressForm.get('street')?.touched || formSubmitted)) {
+                    <p class="error-message">
+                        @if (addressForm.get('street')?.errors?.['required']) {
+                                Bitte gib deine Straße ein
+                        } @else if (addressForm.get('street')?.errors?.['minlength']) {
+                            Die Straße muss mindestens 5 Zeichen lang sein
+                        } @else if (addressForm.get('street')?.errors?.['invalidAddress']) {
+                            Die Straße enthält ungültige Zeichen
+                        }
+                    </p>
+                }
+            </div>
+            <div class="address-container">
+                <p class="address-title">Hausnummer
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.84 5.53599L2.048 3.80799L1.024 4.57599C0.938667 4.65066 0.853333 4.68799 0.768 4.68799C0.650667 4.68799 0.554667 4.61866 0.48 4.47999L0 3.67999L1.552 3.00799L0.384 2.49599C0.224 2.41066 0.144 2.30399 0.144 2.17599C0.144 2.10132 0.165333 2.02666 0.208 1.95199L0.704 1.16799L2.048 2.19199L1.888 0.879989C1.86667 0.741323 1.888 0.639989 1.952 0.575989C2.016 0.501322 2.11733 0.463989 2.256 0.463989H3.264L3.072 2.19199L4.08 1.40799C4.15467 1.33332 4.23467 1.29599 4.32 1.29599C4.43733 1.29599 4.53867 1.36532 4.624 1.50399L5.12 2.31999L3.552 3.00799L4.736 3.51999C4.896 3.59466 4.976 3.70132 4.976 3.83999C4.976 3.90399 4.95467 3.97332 4.912 4.04799L4.4 4.83199L3.072 3.80799L3.216 5.11999C3.22667 5.25866 3.2 5.36532 3.136 5.43999C3.072 5.50399 2.976 5.53599 2.848 5.53599H1.84Z" fill="#F65D7C"/>
+                    </svg>                    
+                </p>
+                <input class="address-input" type="text" formControlName="houseNumber" placeholder="Hausnummer" 
+                    [class.invalid]="addressForm.get('houseNumber')?.invalid && (addressForm.get('houseNumber')?.touched || formSubmitted)" />
+                @if (addressForm.get('houseNumber')?.invalid && (addressForm.get('houseNumber')?.touched || formSubmitted)) {
+                    <p class="error-message">
+                        @if (addressForm.get('houseNumber')?.errors?.['required']) {
+                                Bitte gib deine Hausnummer ein
+                        } @else if (addressForm.get('houseNumber')?.errors?.['invalidHouseNumber']) {
+                            Die Hausnummer enthält ungültige Zeichen
+                        }
+                    </p>
+                }
+            </div>
+        </div>
+        <div class="address-row">
+            <div class="address-container">
+                <p class="address-title">Postleitzahl
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.84 5.53599L2.048 3.80799L1.024 4.57599C0.938667 4.65066 0.853333 4.68799 0.768 4.68799C0.650667 4.68799 0.554667 4.61866 0.48 4.47999L0 3.67999L1.552 3.00799L0.384 2.49599C0.224 2.41066 0.144 2.30399 0.144 2.17599C0.144 2.10132 0.165333 2.02666 0.208 1.95199L0.704 1.16799L2.048 2.19199L1.888 0.879989C1.86667 0.741323 1.888 0.639989 1.952 0.575989C2.016 0.501322 2.11733 0.463989 2.256 0.463989H3.264L3.072 2.19199L4.08 1.40799C4.15467 1.33332 4.23467 1.29599 4.32 1.29599C4.43733 1.29599 4.53867 1.36532 4.624 1.50399L5.12 2.31999L3.552 3.00799L4.736 3.51999C4.896 3.59466 4.976 3.70132 4.976 3.83999C4.976 3.90399 4.95467 3.97332 4.912 4.04799L4.4 4.83199L3.072 3.80799L3.216 5.11999C3.22667 5.25866 3.2 5.36532 3.136 5.43999C3.072 5.50399 2.976 5.53599 2.848 5.53599H1.84Z" fill="#F65D7C"/>
+                    </svg>                    
+                </p>
+                <input class="address-input" type="text" formControlName="postalCode" placeholder="PLZ"
+                    [class.invalid]="addressForm.get('postalCode')?.invalid && (addressForm.get('postalCode')?.touched || formSubmitted)" />
+                @if (addressForm.get('postalCode')?.invalid && (addressForm.get('postalCode')?.touched || formSubmitted)) {
+                    <p class="error-message">
+                            Bitte gib eine gültige Postleitzahl ein
+                    </p>
+                }
+                <div *ngIf="postalCodeError && (formSubmitted || addressForm.get('postalCode')?.touched)" class="error-message">
+                    Die angegebene Postleitzahl ist nicht gültig oder der gewählte Service ist an diesem Standort nicht verfügbar.
+                </div>
+            </div>
+            <div class="address-container">
+                <p class="address-title">Ort
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.84 5.53599L2.048 3.80799L1.024 4.57599C0.938667 4.65066 0.853333 4.68799 0.768 4.68799C0.650667 4.68799 0.554667 4.61866 0.48 4.47999L0 3.67999L1.552 3.00799L0.384 2.49599C0.224 2.41066 0.144 2.30399 0.144 2.17599C0.144 2.10132 0.165333 2.02666 0.208 1.95199L0.704 1.16799L2.048 2.19199L1.888 0.879989C1.86667 0.741323 1.888 0.639989 1.952 0.575989C2.016 0.501322 2.11733 0.463989 2.256 0.463989H3.264L3.072 2.19199L4.08 1.40799C4.15467 1.33332 4.23467 1.29599 4.32 1.29599C4.43733 1.29599 4.53867 1.36532 4.624 1.50399L5.12 2.31999L3.552 3.00799L4.736 3.51999C4.896 3.59466 4.976 3.70132 4.976 3.83999C4.976 3.90399 4.95467 3.97332 4.912 4.04799L4.4 4.83199L3.072 3.80799L3.216 5.11999C3.22667 5.25866 3.2 5.36532 3.136 5.43999C3.072 5.50399 2.976 5.53599 2.848 5.53599H1.84Z" fill="#F65D7C"/>
+                    </svg>
+                </p>
+                <input class="address-input" type="text" formControlName="city" placeholder="Ort" 
+                    [class.invalid]="addressForm.get('city')?.invalid && (addressForm.get('city')?.touched || formSubmitted)" />
+                @if (addressForm.get('city')?.invalid && (addressForm.get('city')?.touched || formSubmitted)) {
+                    <p class="error-message">
+                        @if (addressForm.get('city')?.errors?.['required']) {
+                                Bitte gib deinen Ort ein
+                        } @else if (addressForm.get('city')?.errors?.['minlength']) {
+                            Der Ort muss mindestens 2 Zeichen lang sein
+                        } @else if (addressForm.get('city')?.errors?.['invalidCity']) {
+                            Der Ort darf nur Buchstaben (einschließlich internationaler Zeichen), Leerzeichen, Bindestriche und Punkte enthalten
+                        }
+                    </p>
+                }
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="cta">
+    <button class="btn-back" (click)="goBack()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M13.6754 3.62063C13.9073 3.9082 13.8841 4.30902 13.6059 4.57393L7.646 10.25L13.6059 15.9262C13.9094 16.2151 13.9094 16.6659 13.6059 16.9549C13.4618 17.0922 13.2759 17.1667 13.0835 17.1667C12.8911 17.1667 12.7052 17.0922 12.5611 16.9549L6.06108 10.7644C5.75763 10.4754 5.75763 10.0247 6.06108 9.73567L12.5611 3.5452C12.8576 3.26277 13.3094 3.26277 13.6059 3.5452L13.6754 3.62063Z" fill="#1F516C"/>
+        </svg>
+        <span>Zurück</span>
+    </button>
+    <button class="btn-next" 
+           (click)="goForward()"
+           [disabled]="formSubmitted && !isFormValid">
+            <span>Weiter zur Terminauswahl</span>
+    </button>
+</div>

@@ -1,0 +1,5 @@
+router-outlet {
+    min-width: 100vw;
+    display: flex;
+
+}

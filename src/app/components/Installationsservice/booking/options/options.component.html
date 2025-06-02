@@ -1,0 +1,187 @@
+<div class="options">
+    <h2>Bei welchen Geräten benötigen Sie Hilfe?</h2>
+    <form [formGroup]="optionsForm">
+        <div class="skill-container" formGroupName="devices">
+            <h3>
+                Bei folgenden Geräten benötige ich Unterstützung
+            </h3>
+            <div class="skill-list">
+                <div class="skill">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="windows" formControlName="windows">
+                        <label for="windows" class="checkbox-label"></label>
+                    </div>
+                    <label for="windows" class="skill-text">Windows Computer</label>
+                </div>
+                <div class="skill">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="mac" formControlName="mac">
+                        <label for="mac" class="checkbox-label"></label>
+                    </div>
+                    <label for="mac" class="skill-text">Apple Mac</label>
+                </div>
+                <div class="skill">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="iDevice" formControlName="iDevice">
+                        <label for="iDevice" class="checkbox-label"></label>
+                    </div>
+                    <label for="iDevice" class="skill-text">iPhone, iPad oder iPod</label>
+                </div>
+                <div class="skill">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="androidPhone" formControlName="androidPhone">
+                        <label for="androidPhone" class="checkbox-label"></label>
+                    </div>
+                    <label for="androidPhone" class="skill-text">Android Smartphone</label>
+                </div>
+                <div class="skill">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="androidTablet" formControlName="androidTablet">
+                        <label for="androidTablet" class="checkbox-label"></label>
+                    </div>
+                    <label for="androidTablet" class="skill-text">Android Tablet</label>
+                </div>
+                <div class="skill">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="printer" formControlName="printer">
+                        <label for="printer" class="checkbox-label"></label>
+                    </div>
+                    <label for="printer" class="skill-text">Drucker, Scanner oder Faxgerät</label>
+                </div>
+
+                <!-- Printer details section - visible only when printer option is selected -->
+                @if (showPrinterOptions) {
+                    <div class="dropdown-section">
+                        <div class="skill-list">
+                            <div class="skill">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="windowsComputer" formControlName="windowsComputer">
+                                    <label for="windowsComputer" class="checkbox-label"></label>
+                                </div>
+                                <label for="windowsComputer" class="skill-text">Windows Computer oder Tablet</label>
+                            </div>
+                            <div class="skill">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="appleMac" formControlName="appleMac">
+                                    <label for="appleMac" class="checkbox-label"></label>
+                                </div>
+                                <label for="appleMac" class="skill-text">Apple Mac</label>
+                            </div>
+                            <div class="skill">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="androidSmartphone" formControlName="androidSmartphone">
+                                    <label for="androidSmartphone" class="checkbox-label"></label>
+                                </div>
+                                <label for="androidSmartphone" class="skill-text">Android Smartphone, z.B. von Samsung, LG, Huawei, HTC</label>
+                            </div>
+                            <div class="skill">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="appleDevice" formControlName="appleDevice">
+                                    <label for="appleDevice" class="checkbox-label"></label>
+                                </div>
+                                <label for="appleDevice" class="skill-text">Apple iPhone, iPad oder iPod Touch</label>
+                            </div>
+                            <div class="skill">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="andere" formControlName="andere">
+                                    <label for="andere" class="checkbox-label"></label>
+                                </div>
+                                <label for="andere" class="skill-text">Andere</label>
+                            </div>
+                            <div class="skill">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" id="keine" formControlName="keine">
+                                    <label for="keine" class="checkbox-label"></label>
+                                </div>
+                                <label for="keine" class="skill-text">Keine, das Problem tritt unabhängig von einem Gerät auf</label>
+                            </div>
+                        </div>
+                    </div>
+                }
+                
+                <div class="skill">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="homeTheater" formControlName="homeTheater">
+                        <label for="homeTheater" class="checkbox-label"></label>
+                    </div>
+                    <label for="homeTheater" class="skill-text">HiFi oder Heimkinosystem</label>
+                </div>
+                <div class="skill">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="smartHome" formControlName="smartHome">
+                        <label for="smartHome" class="checkbox-label"></label>
+                    </div>
+                    <label for="smartHome" class="skill-text">Smarthome</label>
+                </div>
+                <div class="skill">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="other" formControlName="other">
+                        <label for="other" class="checkbox-label"></label>
+                    </div>
+                    <label for="other" class="skill-text">Andere</label>
+                </div>
+            </div>
+            
+            <div class="description-container">
+                <div class="description-label">
+                    <p>
+                        Bitte beschreiben Sie Ihr Problem möglichst vollständig
+                    </p>
+                    <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.71891 5.53587L2.92691 3.80787L1.90291 4.57587C1.81757 4.65053 1.73224 4.68787 1.64691 4.68787C1.52957 4.68787 1.43357 4.61853 1.35891 4.47987L0.878906 3.67987L2.43091 3.00787L1.26291 2.49587C1.10291 2.41053 1.02291 2.30387 1.02291 2.17587C1.02291 2.1012 1.04424 2.02653 1.08691 1.95187L1.58291 1.16787L2.92691 2.19187L2.76691 0.879867C2.74557 0.7412 2.76691 0.639867 2.83091 0.575867C2.89491 0.5012 2.99624 0.463867 3.13491 0.463867H4.14291L3.95091 2.19187L4.95891 1.40787C5.03357 1.3332 5.11357 1.29587 5.19891 1.29587C5.31624 1.29587 5.41757 1.3652 5.50291 1.50387L5.99891 2.31987L4.43091 3.00787L5.61491 3.51987C5.77491 3.59453 5.85491 3.7012 5.85491 3.83987C5.85491 3.90387 5.83357 3.9732 5.79091 4.04787L5.27891 4.83187L3.95091 3.80787L4.09491 5.11987C4.10557 5.25853 4.07891 3.3652 4.01491 5.43987C3.95091 5.50387 3.85491 5.53587 3.72691 5.53587H2.71891Z" fill="#F65D7C"/>
+                    </svg>                    
+                </div>
+                
+                <div class="textarea-container">
+                    <textarea 
+                        id="description" 
+                        formControlName="description" 
+                        rows="6" 
+                        placeholder="z.B. Meine E-Mails lassen sich nicht mehr öffnen oder Ich kann meine Bilder nicht auf den Drucker ausdrucken..."
+                        required>
+                    </textarea>
+                    
+                </div>
+
+                @if (optionsForm.get('devices')?.get('description')?.touched && optionsForm.get('devices')?.get('description')?.errors?.['required']) {
+                    <div class="error-message">
+                        Bitte beschreiben Sie Ihr Problem
+                    </div>
+                }
+                
+                @if (optionsForm.get('devices')?.get('description')?.touched && optionsForm.get('devices')?.get('description')?.errors?.['minlength']) {
+                    <div class="error-message">
+                        Bitte geben Sie mindestens 20 Zeichen ein
+                    </div>
+                }
+            </div>
+            
+            <!-- Display validation messages -->
+            @if (optionsForm.touched && !isFormValid()) {
+                @if (!hasAnyDeviceSelected) {
+                    <div class="error-message skill-list">
+                        Bitte wählen Sie mindestens ein Gerät aus
+                    </div>
+                }
+            }
+
+            @if (showPrinterOptions && !isPrinterDeviceSelected) {
+                <div class="error-message skill-list">
+                    Bitte wählen Sie mindestens ein Gerät aus der Drucker-Liste aus
+                </div>
+            }
+        </div>
+    </form>
+</div>
+
+<div class="cta">
+    <button class="btn-back" (click)="goBack()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M13.6754 3.62063C13.9073 3.9082 13.8841 4.30902 13.6059 4.57393L7.646 10.25L13.6059 15.9262C13.9094 16.2151 13.9094 16.6659 13.6059 16.9549C13.4618 17.0922 13.2759 17.1667 13.0835 17.1667C12.8911 17.1667 12.7052 17.0922 12.5611 16.9549L6.06108 10.7644C5.75763 10.4754 5.75763 10.0247 6.06108 9.73567L12.5611 3.5452C12.8576 3.26277 13.3094 3.26277 13.6059 3.5452L13.6754 3.62063Z" fill="#1F516C"/>
+        </svg>
+        <span>Zurück</span>
+    </button>
+    <button class="btn-next" [class.invalid]="!isFormValid()" (click)="goForward()">
+        <span>Weiter zur Anschrift</span>
+    </button>
+</div>
