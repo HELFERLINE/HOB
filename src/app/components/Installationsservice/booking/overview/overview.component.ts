@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { O2Service } from '../../../../core/services/o2.service';
+import { onlineService } from '../../../../core/services/online.service';
 
 interface Device {
   id: number;
@@ -18,16 +18,16 @@ export class OverviewComponent implements OnInit {
   isSubmitting = false;
   errorMessage = '';
 
-  constructor(private o2Service: O2Service) { }
+  constructor(private onlineService: onlineService) { }
 
   ngOnInit(): void {
     // Store current step for back navigation handling
-    const currentStep = this.o2Service.getCurrentStep();
+    const currentStep = this.onlineService.getCurrentStep();
     localStorage.setItem('previousStep', currentStep.toString());
   }
 
   get booking() {
-    return this.o2Service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   private devices: Device[] = [
@@ -78,7 +78,7 @@ export class OverviewComponent implements OnInit {
     sessionStorage.setItem('fromOverview', 'true');
     
     // Navigate to step 3 (appointment component)
-    this.o2Service.setCurrentStep(3);
+    this.onlineService.setCurrentStep(3);
   }
 
   goForward(): void {
@@ -89,18 +89,18 @@ export class OverviewComponent implements OnInit {
     this.isSubmitting = true;
     
     // Get the current booking from the service
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     
     // Log the full booking object for verification before submission
     console.log('Submitting booking:', currentBooking);
     
 
-    this.o2Service.postBooking(currentBooking).subscribe({
+    this.onlineService.postBooking(currentBooking).subscribe({
       next: (response) => {
         console.log('Booking successful:', response);
         this.isSubmitting = false;
-        const currentStep = this.o2Service.getCurrentStep();
-        this.o2Service.setCurrentStep(currentStep + 1);
+        const currentStep = this.onlineService.getCurrentStep();
+        this.onlineService.setCurrentStep(currentStep + 1);
       },
       error: (error) => {
         console.error('Error during booking:', error);

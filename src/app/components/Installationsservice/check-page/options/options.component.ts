@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import { serviceOptions } from '../../../../core/models/serviceOptions';
-import { O2Service } from '../../../../core/services/o2.service';
+import { onlineService } from '../../../../core/services/online.service';
 
 @Component({
   selector: 'app-options',
@@ -12,23 +12,23 @@ import { O2Service } from '../../../../core/services/o2.service';
 export class OptionsComponent {
 
   constructor(
-    private o2Service: O2Service,
+    private onlineService: onlineService,
   ) { }
 
   get booking() {
-    return this.o2Service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   installationService(): void {
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     currentBooking.selectedService = serviceOptions.installationService;
-    this.o2Service.setBooking(currentBooking);
+    this.onlineService.setBooking(currentBooking);
   }
 
   remoteService(): void {
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     currentBooking.selectedService = serviceOptions.remoteService;
-    this.o2Service.setBooking(currentBooking);
-    this.o2Service.setCurrentStep(3);
+    this.onlineService.setBooking(currentBooking);
+    this.onlineService.setCurrentStep(3);
   }
 }

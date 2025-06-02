@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { O2Service } from '../../../core/services/o2.service';
-import { Booking } from '../../../core/models/booking';
-import { StorageService } from '../../../core/services/storage.service';
+import { onlineService } from '../../../core/services/online.service';
 
 @Component({
   selector: 'app-cal-embed',
@@ -34,10 +32,10 @@ export class CalEmbedComponent implements OnInit {
   calEmbedUrl: SafeResourceUrl;
 
   constructor(
-    private o2service: O2Service,
+    private onlineService: onlineService,
     private sanitizer: DomSanitizer
   ) {
-    const booking = this.o2service.booking;
+    const booking = this.onlineService.booking;
     // Determine funnel type based on booking properties
   
 

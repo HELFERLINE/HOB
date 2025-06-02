@@ -9,7 +9,7 @@ import {
 import { AddressService } from '../../../core/services/address.service';
 import { OptionsComponent } from './options/options.component';
 import { serviceOptions } from '../../../core/models/serviceOptions';
-import { O2Service } from '../../../core/services/o2.service';
+import { onlineService } from '../../../core/services/online.service';
 
 @Component({
   selector: 'app-check-page',
@@ -29,7 +29,7 @@ export class CheckPageComponent {
 
   constructor(
     private addressService: AddressService,
-    private o2Service: O2Service,
+    private onlineService: onlineService,
     private fb: FormBuilder
   ) {
     this.createForm();
@@ -45,7 +45,7 @@ export class CheckPageComponent {
   }
 
   get booking() {
-    return this.o2Service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   ngOnInit(): void {
@@ -87,14 +87,14 @@ export class CheckPageComponent {
 
   // Ensures city data is consistently stored at both booking root and address level
   private saveCity(cityName: string): void {
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     currentBooking.city = cityName;
     
     if (currentBooking.address) {
       currentBooking.address.city = cityName;
     }
     
-    this.o2Service.setBooking(currentBooking);
+    this.onlineService.setBooking(currentBooking);
   }
 
   async checkPostalCode(): Promise<void> {
@@ -102,7 +102,7 @@ export class CheckPageComponent {
     if (postalCode && postalCode.match(/^\d{5}$/)) {
       this.cityName = await this.addressService.checkPostalCode(postalCode);
       
-      const currentBooking = this.o2Service.getBooking();
+      const currentBooking = this.onlineService.getBooking();
       currentBooking.postalCode = postalCode;
       currentBooking.city = this.cityName;
       
@@ -112,7 +112,7 @@ export class CheckPageComponent {
         currentBooking.address.city = this.cityName;
       }
       
-      this.o2Service.setBooking(currentBooking);
+      this.onlineService.setBooking(currentBooking);
     }
   }
 
@@ -124,7 +124,7 @@ export class CheckPageComponent {
     
     await this.checkPostalCode();
     
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     
     // Guarantee city data consistency before form submission
     if (this.cityName) {
@@ -135,7 +135,7 @@ export class CheckPageComponent {
     }
   
     
-    this.o2Service.setBooking(currentBooking);
+    this.onlineService.setBooking(currentBooking);
   }
 
   onFormChange(): void {

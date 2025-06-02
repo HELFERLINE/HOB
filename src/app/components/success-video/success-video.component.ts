@@ -3,7 +3,7 @@ import { HeaderComponent } from '../Installationsservice/header/header.component
 import { ConfirmationComponent } from '../Installationsservice/booking/confirmation/confirmation.component';
 import { FooterComponent } from '../Installationsservice/footer/footer.component';
 import { StatebarComponent } from '../Installationsservice/booking/statebar/statebar.component';
-import { O2Service } from '../../core/services/o2.service';
+import { onlineService } from '../../core/services/online.service';
 import { serviceOptions } from '../../core/models/serviceOptions';
 
 @Component({
@@ -20,16 +20,16 @@ import { serviceOptions } from '../../core/models/serviceOptions';
 export class SuccessVideoComponent {
 
   constructor(
-    private o2service: O2Service
+    private onlineService: onlineService
   ) {
-    this.o2service.setCurrentStep(5);
-    const currentBooking = this.o2service.getBooking();
+    this.onlineService.setCurrentStep(5);
+    const currentBooking = this.onlineService.getBooking();
     currentBooking.selectedService = serviceOptions.remoteService;
-    this.o2service.setBooking(currentBooking);
+    this.onlineService.setBooking(currentBooking);
   }
 
   get booking() {
-    return this.o2service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   ngOnInit(): void {

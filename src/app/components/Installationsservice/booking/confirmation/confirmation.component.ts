@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { O2Service } from '../../../../core/services/o2.service';
+import { onlineService } from '../../../../core/services/online.service';
 import { serviceOptions } from '../../../../core/models/serviceOptions';
 
 @Component({
@@ -11,11 +11,11 @@ import { serviceOptions } from '../../../../core/models/serviceOptions';
 export class ConfirmationComponent {
   serviceOptions = serviceOptions
   constructor(
-    private o2Service: O2Service,
+    private onlineService: onlineService,
   ) { }
 
   get booking() {
-    return this.o2Service.getBooking();
+    return this.onlineService.getBooking();
   }
 
 }

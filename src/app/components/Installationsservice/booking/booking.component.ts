@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StatebarComponent } from './statebar/statebar.component';
 import { OptionsComponent } from './options/options.component';
 import { serviceOptions } from '../../../core/models/serviceOptions';
-import { O2Service } from '../../../core/services/o2.service';
+import { onlineService } from '../../../core/services/online.service';
 import { AddressComponent } from './address/address.component';
 import { AppointmentComponent } from './appointment/appointment.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
@@ -29,28 +29,28 @@ export class BookingComponent {
   serviceOptions = serviceOptions;
 
   constructor(
-    private o2Service: O2Service,
+    private onlineService: onlineService,
   ) { }
 
   get currentStep(): number {
-    return this.o2Service.getCurrentStep();
+    return this.onlineService.getCurrentStep();
   }
 
   get booking(): any {
-    return this.o2Service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   goBack(): void {
     if (this.currentStep > 1) {
-      this.o2Service.setCurrentStep(this.currentStep - 1);
+      this.onlineService.setCurrentStep(this.currentStep - 1);
     } else {
-      const currentBooking = this.o2Service.getBooking();
+      const currentBooking = this.onlineService.getBooking();
       currentBooking.selectedService = serviceOptions.unselected;
-      this.o2Service.setBooking(currentBooking);
+      this.onlineService.setBooking(currentBooking);
     }
   }
 
   goForward(): void {
-    this.o2Service.setCurrentStep(this.currentStep + 1);
+    this.onlineService.setCurrentStep(this.currentStep + 1);
   }
 }

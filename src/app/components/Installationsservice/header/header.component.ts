@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AppUrls } from '../../../app.urls';
 import { Router, RouterModule } from '@angular/router';
-import { O2Service } from '../../../core/services/o2.service';
+import { onlineService } from '../../../core/services/online.service';
 
 @Component({
   selector: 'app-header',
@@ -17,11 +17,11 @@ export class HeaderComponent {
   
   constructor(
     private router: Router,
-    private o2service: O2Service
+    private onlineService: onlineService
   ) {}
   
   get booking() {
-    return this.o2service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   reloadHomePage(): void {    

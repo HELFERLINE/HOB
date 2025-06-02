@@ -11,7 +11,7 @@ import { serviceOptions } from '../models/serviceOptions';
 @Injectable({
   providedIn: 'root'
 })
-export class O2Service {
+export class onlineService {
   booking: Booking = new Booking();
   currentStep: number = 1;
 

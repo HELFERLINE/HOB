@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { O2Service } from '../../../../core/services/o2.service';
+import { onlineService } from '../../../../core/services/online.service';
 import { serviceOptions } from '../../../../core/models/serviceOptions';
 
 @Component({
@@ -38,16 +38,16 @@ export class OptionsComponent implements OnInit {
   };
 
   constructor(
-    private o2Service: O2Service,
+    private onlineService: onlineService,
     private fb: FormBuilder
   ) { }
 
   get booking() {
-    return this.o2Service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   ngOnInit(): void {
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     
     this.optionsForm = this.fb.group({
       serviceOption: [currentBooking.needsExpertHelp ? 'expert' : 'basic'],
@@ -216,7 +216,7 @@ export class OptionsComponent implements OnInit {
   }
 
   get currentStep(): number {
-    return this.o2Service.getCurrentStep();
+    return this.onlineService.getCurrentStep();
   }
 
 
@@ -226,7 +226,7 @@ export class OptionsComponent implements OnInit {
 
   private updateBookingDevices(): void {    
     const formValue = this.optionsForm.value;
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     
     // Get selected device IDs
     currentBooking.selectedDeviceIds = Object.entries(formValue.devices)
@@ -241,14 +241,14 @@ export class OptionsComponent implements OnInit {
     }
     currentBooking.printerDetails.description = formValue.devices.description || '';
     
-    this.o2Service.setBooking(currentBooking);
+    this.onlineService.setBooking(currentBooking);
   }
 
   private updateBookingPrinterDevices(): void {
     if (!this.showPrinterOptions) return;
     
     const formValue = this.optionsForm.value;
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     
     if (!currentBooking.printerDetails) {
       currentBooking.printerDetails = { deviceIds: [], description: '' };
@@ -264,16 +264,16 @@ export class OptionsComponent implements OnInit {
     // Always update the description even if no printer device is selected
     currentBooking.printerDetails.description = devices.description || '';
     
-    this.o2Service.setBooking(currentBooking);
+    this.onlineService.setBooking(currentBooking);
   }
 
   goBack(): void {
     if (this.currentStep > 1) {
-      this.o2Service.setCurrentStep(this.currentStep - 1);
+      this.onlineService.setCurrentStep(this.currentStep - 1);
     } else {
-      const currentBooking = this.o2Service.getBooking();
+      const currentBooking = this.onlineService.getBooking();
       currentBooking.selectedService = serviceOptions.unselected;
-      this.o2Service.setBooking(currentBooking);
+      this.onlineService.setBooking(currentBooking);
     }
   }
 
@@ -286,7 +286,7 @@ export class OptionsComponent implements OnInit {
 
     // Save form data to booking
     const formValue = this.optionsForm.value;
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     
     currentBooking.needsExpertHelp = formValue.serviceOption === 'expert';
     
@@ -316,8 +316,8 @@ export class OptionsComponent implements OnInit {
       delete currentBooking.printerDetails;
     }
 
-    this.o2Service.setBooking(currentBooking);
-    this.o2Service.setCurrentStep(this.currentStep + 1);
+    this.onlineService.setBooking(currentBooking);
+    this.onlineService.setCurrentStep(this.currentStep + 1);
   }
 
   isFormValid(): boolean {

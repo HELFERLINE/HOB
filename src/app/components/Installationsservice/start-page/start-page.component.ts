@@ -5,9 +5,8 @@ import { FrequentQuestionsComponent } from "../frequent-questions/frequent-quest
 import { FooterComponent } from '../footer/footer.component';
 import { BookingComponent } from '../booking/booking.component';
 import { serviceOptions } from '../../../core/models/serviceOptions';
-import { O2Service } from '../../../core/services/o2.service';
+import { onlineService } from '../../../core/services/online.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppUrls } from '../../../app.urls';
 import { ContactDetails, Address } from '../../../core/models/booking';
 import { StorageService } from '../../../core/services/storage.service';
 import { CommonModule } from '@angular/common';
@@ -31,14 +30,14 @@ export class StartPageComponent implements OnInit {
   showUserInfo: boolean = false;
 
   constructor(
-    private o2Service: O2Service,
+    private onlineService: onlineService,
     private router: Router,
     private route: ActivatedRoute,
     private storageService: StorageService
   ) {
     this.route.queryParams.subscribe(params => {
       if (Object.keys(params).length > 0) {
-        const booking = this.o2Service.getBooking();
+        const booking = this.onlineService.getBooking();
         
         // Initialize address and contactDetails if not already present
         booking.address = booking.address || {} as Address;
@@ -61,7 +60,7 @@ export class StartPageComponent implements OnInit {
         if (params['city']) booking.city = params['city'];
         
         // Update the booking object
-        this.o2Service.setBooking(booking);
+        this.onlineService.setBooking(booking);
       }      
       // Check route type regardless of query parameters
       this.checkRouteType();
@@ -83,19 +82,19 @@ export class StartPageComponent implements OnInit {
     // Remove query parameters for route comparison
     const baseUrl = normalizedUrl.split('?')[0];
     
-    const booking = this.o2Service.getBooking();
+    const booking = this.onlineService.getBooking();
     
-    this.o2Service.setBooking(booking);
+    this.onlineService.setBooking(booking);
   }
 
   selectedService = serviceOptions;
 
   get booking() {
-    return this.o2Service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   get currentStep() {
-    return this.o2Service.getCurrentStep();
+    return this.onlineService.getCurrentStep();
   }
 
   loadUserInfo(): void {

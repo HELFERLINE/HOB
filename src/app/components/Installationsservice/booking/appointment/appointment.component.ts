@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { O2Service } from '../../../../core/services/o2.service';
+import { onlineService } from '../../../../core/services/online.service';
 import { serviceOptions } from '../../../../core/models/serviceOptions';
 import { CalEmbedComponent } from '../../../shared/cal-embed/cal-embed.component';
 
@@ -41,7 +41,7 @@ export class AppointmentComponent implements OnInit {
   }
 
   get booking() {
-    return this.o2Service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   // Add working hours constraints
@@ -50,7 +50,7 @@ export class AppointmentComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private o2Service: O2Service
+    private onlineService: onlineService
   ) {
     this.appointmentForm = this.fb.group({
       phoneNumber: ['', [
@@ -200,7 +200,7 @@ export class AppointmentComponent implements OnInit {
   }
 
   get currentStep(): number {
-    return this.o2Service.getCurrentStep();
+    return this.onlineService.getCurrentStep();
   }
 
   ngOnInit(): void {
@@ -208,7 +208,7 @@ export class AppointmentComponent implements OnInit {
     const fromOverviewFlag = sessionStorage.getItem('fromOverview');
     
     // Always prefill form fields if data exists
-    const currentBooking = this.o2Service.getBooking();
+    const currentBooking = this.onlineService.getBooking();
     if (currentBooking.contactDetails) {
       this.appointmentForm.patchValue({
         phoneNumber: currentBooking.contactDetails.phoneNumber,
@@ -382,13 +382,13 @@ export class AppointmentComponent implements OnInit {
     
     if (this.appointmentForm.get('phoneNumber')?.valid && this.appointmentForm.get('email')?.valid) {
       // Store contact details in booking object
-      const currentBooking = this.o2Service.getBooking();
+      const currentBooking = this.onlineService.getBooking();
       currentBooking.contactDetails = {
         phoneNumber: this.appointmentForm.get('phoneNumber')?.value,
         email: this.appointmentForm.get('email')?.value
       };
       
-      this.o2Service.setBooking(currentBooking);
+      this.onlineService.setBooking(currentBooking);
       
       // Move to appointment selection
       this.detailsValidated = true;
@@ -402,7 +402,7 @@ export class AppointmentComponent implements OnInit {
     if (this.booking.selectedService === serviceOptions.remoteService) {
       // Reset the selected service to unselected option
       this.booking.selectedService = serviceOptions.unselected;
-      this.o2Service.setBooking(this.booking);
+      this.onlineService.setBooking(this.booking);
     } else {
       if (this.currentStep > 1) {
         if (this.detailsValidated) {
@@ -412,7 +412,7 @@ export class AppointmentComponent implements OnInit {
           this.detailsValidated = false;
         } else {
           // If we're in contact details, go to previous step
-          this.o2Service.setCurrentStep(this.currentStep - 1);
+          this.onlineService.setCurrentStep(this.currentStep - 1);
         }
       }
     }
@@ -430,7 +430,7 @@ export class AppointmentComponent implements OnInit {
   goForward(): void {
     if (this.appointmentForm.get('phoneNumber')?.valid && this.appointmentForm.get('email')?.valid) {
       // Store contact details in booking object
-      const currentBooking = this.o2Service.getBooking();
+      const currentBooking = this.onlineService.getBooking();
       currentBooking.contactDetails = {
         phoneNumber: this.appointmentForm.get('phoneNumber')?.value,
         email: this.appointmentForm.get('email')?.value
@@ -441,7 +441,7 @@ export class AppointmentComponent implements OnInit {
       currentBooking.contactType = notificationMethod === 'sms' ? 0 : 1;
       currentBooking.contactDetails.phoneNumber = this.appointmentForm.get('notificationNumber')?.value;
       
-      this.o2Service.setBooking(currentBooking);
+      this.onlineService.setBooking(currentBooking);
       
       // Move to appointment selection
       this.detailsValidated = true;
@@ -462,7 +462,7 @@ export class AppointmentComponent implements OnInit {
     // Then check if form is valid
     if (this.appointmentForm.valid) {
       // Get the current booking
-      const currentBooking = this.o2Service.getBooking();
+      const currentBooking = this.onlineService.getBooking();
       
       // Make sure we preserve any previously set contact details
       if (!currentBooking.contactDetails) {
@@ -497,10 +497,10 @@ export class AppointmentComponent implements OnInit {
         contactType: currentBooking.contactType
       });
       
-      this.o2Service.setBooking(currentBooking);
+      this.onlineService.setBooking(currentBooking);
       
       // Move to next step
-      this.o2Service.setCurrentStep(this.currentStep + 1);
+      this.onlineService.setCurrentStep(this.currentStep + 1);
     } else {
       // Form is invalid, scroll to first invalid control
       this.scrollToFirstInvalidControl();

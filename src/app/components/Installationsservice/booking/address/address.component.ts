@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { O2Service } from '../../../../core/services/o2.service';
+import { onlineService } from '../../../../core/services/online.service';
 import { serviceOptions } from '../../../../core/models/serviceOptions';
 import { AddressService } from '../../../../core/services/address.service';
 import { Subscription } from 'rxjs';
@@ -20,12 +20,12 @@ export class AddressComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
 
   get booking() {
-    return this.o2Service.getBooking();
+    return this.onlineService.getBooking();
   }
 
   constructor(
     private fb: FormBuilder,
-    private o2Service: O2Service,
+    private onlineService: onlineService,
     private addressService: AddressService
   ) {
     // Custom validator to check for whitespace-only input
@@ -313,7 +313,7 @@ export class AddressComponent implements OnInit, OnDestroy {
       }
       
       // Save the updated booking 
-      this.o2Service.setBooking(this.booking);
+      this.onlineService.setBooking(this.booking);
       
       // Log for debugging
       console.log(`Updated booking field ${field} to ${value}`);
@@ -366,20 +366,20 @@ export class AddressComponent implements OnInit, OnDestroy {
         this.booking.address.city = this.booking.city;
       }
       
-      this.o2Service.setBooking(this.booking);
+      this.onlineService.setBooking(this.booking);
     }
   }
   
   get currentStep(): number {
-    return this.o2Service.getCurrentStep();
+    return this.onlineService.getCurrentStep();
   }
   
   goBack(): void {
     if (this.currentStep > 1) {
-      this.o2Service.setCurrentStep(this.currentStep - 1);
+      this.onlineService.setCurrentStep(this.currentStep - 1);
     } else {
       this.booking.selectedService = serviceOptions.unselected;
-      this.o2Service.setBooking(this.booking);
+      this.onlineService.setBooking(this.booking);
     }
   }
   
@@ -401,7 +401,7 @@ export class AddressComponent implements OnInit, OnDestroy {
         // Explicitly update both form and booking object
         this.updateBookingField('city', cityResult);
         // Make sure the booking object change persists immediately
-        this.o2Service.setBooking(this.booking);
+        this.onlineService.setBooking(this.booking);
         return true;
       }
     } else {
@@ -420,7 +420,7 @@ export class AddressComponent implements OnInit, OnDestroy {
     
     if (this.addressForm.valid && !this.postalCodeError) {
       this.saveAddress();
-      this.o2Service.setCurrentStep(this.currentStep + 1);
+      this.onlineService.setCurrentStep(this.currentStep + 1);
     } else {
       this.scrollToFirstInvalidControl();
     }
