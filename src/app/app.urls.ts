@@ -1,7 +1,5 @@
 export enum AppUrls {
-    InstallationService = 'installationsservice',
-    SuccessPage = 'success-video',
-    faq = 'Häufige-Fragen',
+    OnlineBuchung = 'Online-Buchung',
     about = 'Über-uns',
     imprint = 'Impressum',
     dsgvo = 'Datenschutz',
