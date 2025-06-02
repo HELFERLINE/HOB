@@ -8,10 +8,9 @@ import {
   } from '@angular/router';
   
 import { AppUrls } from './app.urls';
-import { StartPageComponent } from './components/Installationsservice/start-page/start-page.component';
-import { SuccessVideoComponent } from './components/success-video/success-video.component';
 import { ImprintComponent } from './components/imprint/imprint.component';
 import { DsgvoComponent } from './components/dsgvo/dsgvo.component';
+import { AiBookingComponent } from './components/ai-booking/ai-booking.component';
   
   const LOWERCASE_ROUTE_MATCH: boolean = true;
   const LOWERCASE_FORWARD_ROUTE_DATA: boolean = false;
@@ -65,14 +64,10 @@ import { DsgvoComponent } from './components/dsgvo/dsgvo.component';
   };
   
   export const RoutesConfig: Routes = [
-    { path: '', redirectTo: AppUrls.InstallationService, pathMatch: 'full' },
+    { path: '', redirectTo: AppUrls.AiBooking, pathMatch: 'full' },
     {
-      matcher: CaseInsensitiveMatcher(AppUrls.InstallationService),
-      component: StartPageComponent,
-    },
-    {
-      matcher: CaseInsensitiveMatcher(AppUrls.SuccessPage),
-      component: SuccessVideoComponent,
+      matcher: CaseInsensitiveMatcher(AppUrls.AiBooking),
+      component: AiBookingComponent,
     },
     {
       matcher: CaseInsensitiveMatcher(AppUrls.imprint),
@@ -86,5 +81,5 @@ import { DsgvoComponent } from './components/dsgvo/dsgvo.component';
     //   matcher: CaseInsensitiveMatcher(AppUrls.InstallationServiceB2B),
     //   component: StartPageComponent,
     // },
-    { path: '**', redirectTo: AppUrls.InstallationService, pathMatch: 'full' },
+    { path: '**', redirectTo: AppUrls.AiBooking, pathMatch: 'full' },
   ];
