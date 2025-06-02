@@ -1,11 +1,5 @@
 <div class="address">
-    @if (this.booking.isKulanz === false && this.booking.isB2B === false) {
-        <h1>Meine Anschrift</h1>
-    } @else if (this.booking.isKulanz === true) {
-        <h1>Kund:innenanschrift</h1>
-    } @else if (this.booking.isB2B === true) {
-        <h1>Ihre Anschrift</h1>
-    }
+    <h1>Meine Anschrift</h1>
     <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
         <div class="address-row">
             <div class="address-container">

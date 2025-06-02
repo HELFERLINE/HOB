@@ -31,10 +31,6 @@ export class AppointmentComponent implements OnInit {
   // Get today's date for min input attribute
   minDate: string = this.formatDateForInput(new Date());
   
-  // Check if this is a B2B booking
-  get isB2BBooking(): boolean {
-    return this.booking.isB2B === true;
-  }
   
   // Get minimum valid date (today + 2 days)
   get minValidDate(): string {

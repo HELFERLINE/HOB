@@ -29,9 +29,6 @@ export interface AppointmentSuggestion {
 }
 
 export class Booking {
-    isKulanz: boolean = false;
-    isB2B: boolean = false;
-    isEmployee: boolean = false;
     salcusId?: string;
     kulanzReason?: string;
     selectedService: serviceOptions = serviceOptions.unselected;

@@ -211,7 +211,6 @@ export class AddressComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Set conditional validators for B2B fields
-    this.setB2BValidators();
 
     if (this.booking) {
       // Get postal code and trim it to handle whitespace
@@ -319,86 +318,6 @@ export class AddressComponent implements OnInit, OnDestroy {
       // Log for debugging
       console.log(`Updated booking field ${field} to ${value}`);
     }
-  }
-
-  // Set validators for B2B specific fields based on isB2B status
-  setB2BValidators(): void {
-    if (this.booking.isB2B === true) {
-      // Custom validator for company names
-      const companyValidator = (control: AbstractControl): ValidationErrors | null => {
-        if (!control.value) return null;
-        
-        const trimmedValue = control.value.trim();
-        if (trimmedValue.length < 2) {
-          return { 'minlength': { requiredLength: 2, actualLength: trimmedValue.length } };
-        }
-        
-        const companyPattern = /^[\p{L}0-9\s\-'.,&()]+$/u;
-        if (!companyPattern.test(trimmedValue)) {
-          return { 'invalidCompany': true };
-        }
-        
-        return null;
-      };
-
-      // Custom validator for contact person names
-      const nameValidator = (control: AbstractControl): ValidationErrors | null => {
-        if (!control.value) return null;
-        
-        const trimmedValue = control.value.trim();
-        if (trimmedValue.length < 2) {
-          return { 'minlength': { requiredLength: 2, actualLength: trimmedValue.length } };
-        }
-        
-        const namePattern = /^[\p{L}\s\-']+$/u;
-        if (!namePattern.test(trimmedValue)) {
-          return { 'invalidName': true };
-        }
-        
-        return null;
-      };
-
-      // Custom validator for UID
-      const uidValidator = (control: AbstractControl): ValidationErrors | null => {
-        if (!control.value) return null;
-        
-        const trimmedValue = control.value.trim();
-        const uidPattern = /^[A-Z]{2}[A-Z0-9]{8,}$/;
-        if (!uidPattern.test(trimmedValue)) {
-          return { 'invalidUID': true };
-        }
-        
-        return null;
-      };
-
-      this.addressForm.get('companyName')?.setValidators([Validators.required, companyValidator]);
-      this.addressForm.get('contactPerson')?.setValidators([Validators.required, nameValidator]);
-      this.addressForm.get('billingEmail')?.setValidators([
-        Validators.required, 
-        Validators.email,
-        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-      ]);
-      this.addressForm.get('vatRequired')?.setValidators([Validators.required]);
-      
-      // Update UID based on current vatRequired value
-      if (this.addressForm.get('vatRequired')?.value === 'Ja') {
-        this.addressForm.get('uid')?.setValidators([Validators.required, uidValidator]);
-      }
-    } else {
-      // Clear validators if not B2B
-      this.addressForm.get('companyName')?.clearValidators();
-      this.addressForm.get('contactPerson')?.clearValidators();
-      this.addressForm.get('billingEmail')?.clearValidators();
-      this.addressForm.get('vatRequired')?.clearValidators();
-      this.addressForm.get('uid')?.clearValidators();
-    }
-
-    // Update validity of all controls
-    this.addressForm.get('companyName')?.updateValueAndValidity();
-    this.addressForm.get('contactPerson')?.updateValueAndValidity();
-    this.addressForm.get('billingEmail')?.updateValueAndValidity();
-    this.addressForm.get('vatRequired')?.updateValueAndValidity();
-    this.addressForm.get('uid')?.updateValueAndValidity();
   }
 
   saveAddress(): void {

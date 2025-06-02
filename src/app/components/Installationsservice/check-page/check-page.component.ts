@@ -36,16 +36,10 @@ export class CheckPageComponent {
   }
 
   createForm(): void {
-    const isKulanz = this.o2Service.getBooking().isKulanz === true;
     
     const formConfig: any = {
       postalCode: ['', [Validators.required, Validators.pattern(/^\d{5}$/)]],
     };
-    
-    if (isKulanz) {
-      formConfig.salcusId = ['', [Validators.required]];
-      formConfig.kulanzReason = [''];
-    }
     
     this.postalCodeForm = this.fb.group(formConfig);
   }
@@ -89,14 +83,6 @@ export class CheckPageComponent {
       this.cityName = this.booking.city;
     }
     
-    if (savedBooking.isKulanz) {
-      if (savedBooking.salcusId) {
-        this.postalCodeForm.get('salcusId')?.setValue(savedBooking.salcusId);
-      }
-      if (savedBooking.kulanzReason) {
-        this.postalCodeForm.get('kulanzReason')?.setValue(savedBooking.kulanzReason);
-      }
-    }
   }
 
   // Ensures city data is consistently stored at both booking root and address level
@@ -147,11 +133,7 @@ export class CheckPageComponent {
         currentBooking.address.city = this.cityName;
       }
     }
-    
-    if (currentBooking.isKulanz) {
-      currentBooking.salcusId = this.postalCodeForm.value.salcusId;
-      currentBooking.kulanzReason = this.postalCodeForm.value.kulanzReason;
-    }
+  
     
     this.o2Service.setBooking(currentBooking);
   }

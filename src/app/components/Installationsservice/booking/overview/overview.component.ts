@@ -94,12 +94,6 @@ export class OverviewComponent implements OnInit {
     // Log the full booking object for verification before submission
     console.log('Submitting booking:', currentBooking);
     
-    // Perform business validation checks
-    if (currentBooking.isB2B && currentBooking.address?.vatRequired === 'Ja' && !currentBooking.address?.uid) {
-      this.errorMessage = 'Bei Wahl der UID-Pflicht muss eine gültige UID angegeben werden.';
-      this.isSubmitting = false;
-      return;
-    }
 
     this.o2Service.postBooking(currentBooking).subscribe({
       next: (response) => {
@@ -112,11 +106,8 @@ export class OverviewComponent implements OnInit {
         console.error('Error during booking:', error);
         this.isSubmitting = false;
         // Display error message to user
-        if (this.booking.isB2B) {
-          this.errorMessage = 'Bei der Buchung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut. Sollte das Problem weiterhin bestehen, bitten wir Sie, Ihre Buchung mit uns telefonisch unter +49 3221 2302054 abzuschließen.';
-        } else {
-          this.errorMessage = 'Bei der Buchung ist ein Fehler aufgetreten. Bitte versuche es erneut. Sollte das Problem weiterhin bestehen, bitten wir Dich, Deine Buchung mit uns telefonisch unter +49 3221 2302054 abzuschließen.';
-        }
+        this.errorMessage = 'Bei der Buchung ist ein Fehler aufgetreten. Bitte versuche es erneut. Sollte das Problem weiterhin bestehen, bitten wir Dich, Deine Buchung mit uns telefonisch unter +49 3221 2302054 abzuschließen.';
+        
       }
     });
   }

@@ -1,11 +1,5 @@
 <div class="options">
-    @if (this.booking.isB2B === true) {
-    <h2>Für Sie verfügbare Optionen</h2>
-    } @else if (this.booking.isKulanz === true) {
-    <h2>Für den:die Kund:in verfügbare Optionen</h2>
-    } @else {
     <h2>Für dich verfügbare Optionen</h2>
-    }
 
     <div class="options-container">
         @if (this.booking.city !== ' ') {

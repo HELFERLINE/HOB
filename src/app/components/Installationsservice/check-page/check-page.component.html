@@ -20,16 +20,10 @@
     </div>
 
     <div class="postal-code">
-        @if (this.booking.isB2B === true) {
-            <p class="title">Bitte geben Sie Ihre Postleitzahl an, damit wir Ihnen Ihre verfügbaren Optionen anzeigen können.</p>
-        } @else if (this.booking.isKulanz === false) {
-            <p class="title">Bitte gib deine Postleitzahl an, damit wir dir deine verfügbaren Optionen anzeigen können.</p>
-        } @else {
-            <p class="title">Bitte Postleitzahl und Salcus ID des:der Kund:in angeben, damit wir die verfügbaren Optionen anzeigen können.<p>
-        }
+        <p class="title">Bitte Postleitzahl und Salcus ID des:der Kund:in angeben, damit wir die verfügbaren Optionen anzeigen können.<p>
         <form [formGroup]="postalCodeForm" (ngSubmit)="onSubmit()">
             <div class="input-row-container">
-                <div class="input-container" [ngClass]="{'half-width': this.booking.isKulanz === true, 'sixty-width': this.booking.isKulanz === false}">
+                <div class="input-container sixty-width">
                     <div class="input-title">
                             <p>Deine Postleitzahl</p>
                         <svg width="6" height="6" viewBox="0 0 6 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,11 +37,7 @@
                     
                     @if (postalCodeForm.get('postalCode')?.invalid && (postalCodeForm.get('postalCode')?.touched || formSubmitted)) {
                     <p class="error-message">
-                        @if (this.booking.isB2B === true) {
-                            Bitte geben Sie eine korrekte Postleitzahl ein
-                        } @else {
                             Bitte gib eine korrekte Postleitzahl ein
-                        }
                     </p>
                     }
 
@@ -72,7 +62,6 @@
         <app-options></app-options>
         }
     
-    @if (this.booking.isB2B === false) {
     <div class="support-container">
         <p class="text">Oder buche deinen Service telefonisch unter</p>
         <div class="support-cta">
@@ -83,4 +72,3 @@
             </svg>                             
         </div>
     </div>
-}
