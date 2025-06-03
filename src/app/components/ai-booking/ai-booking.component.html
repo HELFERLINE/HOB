@@ -2,7 +2,7 @@
   <main class="main-content">
     <!-- Single Description Section -->
     <section class="description-section" 
-             [class.with-assistant]="currentStep === 'questions'"
+             [class.with-assistant]="currentStep === 'questions' && firstAnalysisComplete"
              [class.transitioning]="showTransition">
       <div class="description-main">
         <div class="section-header">
@@ -28,156 +28,172 @@
             </textarea>
             <div class="input-footer">
               <span class="char-count">{{currentDescription.length}} Zeichen</span>
-              <span class="word-count" *ngIf="currentStep === 'questions'">
-                {{currentDescription.split(' ').length}} Wörter
-              </span>
-              <div class="ai-status" [class.thinking]="aiThinking" *ngIf="currentStep === 'questions'">
-                <span class="ai-indicator">🤖</span>
-                <span *ngIf="!aiThinking">KI bereit</span>
-                <span *ngIf="aiThinking">Analysiert...</span>
-              </div>
-              <span class="ai-hint" *ngIf="currentDescription.length > 10 && currentStep === 'initial' && !showTransition">
-                ✨ KI wird aktiviert...
-              </span>
-              <span class="ai-hint transitioning" *ngIf="showTransition">
-                🚀 KI-Assistent startet...
-              </span>
+              @if (currentStep === 'questions') {
+                <span class="word-count">
+                  {{currentDescription.split(' ').length}} Wörter
+                </span>
+              }
+
+              @if (currentDescription.length > 10 && currentStep === 'initial' && !showTransition && aiState === 'inactive') {
+                <span class="ai-hint">
+                  ✨ KI wird aktiviert...
+                </span>
+              } @else if (aiState !== 'inactive' && currentStep !== 'summary') {
+                <span class="ai-hint" [class.transitioning]="aiHintDisplay.isTransitioning">
+                  {{aiHintDisplay.text}}
+                </span>
+              }
             </div>
           </div>
         </div>
       </div>
 
       <!-- AI Assistant Section (slides in from right) -->
-      <div class="ai-assistant-sidebar" *ngIf="currentStep === 'questions'">
-        <!-- AI Avatar -->
-        <div class="ai-avatar-section">
-          <div class="ai-avatar" [class.thinking]="aiThinking">
-            <div class="avatar-circle">
-              <span class="avatar-emoji">🤖</span>
-              <div class="thinking-animation" *ngIf="aiThinking">
-                <div class="thinking-dot"></div>
-                <div class="thinking-dot"></div>
-                <div class="thinking-dot"></div>
+      @if (currentStep === 'questions' && firstAnalysisComplete) {
+        <div class="ai-assistant-sidebar">
+          <!-- AI Avatar -->
+          <div class="ai-avatar-section">
+            <div class="ai-avatar" [class.thinking]="aiThinking || isTyping">
+              <div class="avatar-circle">
+                <span class="avatar-emoji">🤖</span>
+                @if (aiThinking || isTyping) {
+                  <div class="thinking-animation">
+                    <div class="thinking-dot"></div>
+                    <div class="thinking-dot"></div>
+                    <div class="thinking-dot"></div>
+                  </div>
+                }
+              </div>
+              <div class="ai-info">
+                <h3>🤖 KI-Assistent Alex</h3>
+                @if (!aiThinking && !currentQuestion && !isTyping && firstAnalysisComplete) {
+                  <p class="ai-message">Bereit für Fragen...</p>
+                }
+                @if (!aiThinking && !currentQuestion && !isTyping && !firstAnalysisComplete) {
+                  <p class="ai-message thinking">System wird vorbereitet...</p>
+                }
+                @if (aiThinking || isTyping) {
+                  <p class="ai-message thinking">{{analysisPhase}}</p>
+                }
+                @if (currentQuestion && !aiThinking && !isTyping) {
+                  <p class="ai-message active">Neue Frage bereit!</p>
+                }
               </div>
             </div>
-            <div class="ai-info">
-              <h3>KI-Assistent Alex</h3>
-              <p class="ai-message" *ngIf="!aiThinking && !currentQuestion">Bereit für Fragen...</p>
-              <p class="ai-message thinking" *ngIf="aiThinking">Analysiere...</p>
-              <p class="ai-message active" *ngIf="currentQuestion && !aiThinking">Neue Frage!</p>
+            
+            <div class="progress-indicator">
+              <div class="progress-label">Fortschritt</div>
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width.%]="(answers.length / 5) * 100"></div>
+              </div>
+              <div class="progress-count">{{answers.length}} / 5</div>
             </div>
           </div>
-          
-          <div class="progress-indicator">
-            <div class="progress-label">Fortschritt</div>
-            <div class="progress-bar">
-              <div class="progress-fill" [style.width.%]="(answers.length / 5) * 100"></div>
+
+          <!-- Current Question -->
+          @if (currentQuestion && !aiThinking && !isTyping) {
+            <div class="question-container">
+              <div class="question-card">
+                <div class="question-header">
+                  <span class="question-icon">💡</span>
+                  <h3>{{currentQuestion.text}}</h3>
+                </div>
+
+                <!-- Yes/No Options -->
+                @if (currentQuestion.type === 'yes-no') {
+                  <div class="answer-options yes-no">
+                    <button class="option-btn yes-btn" (click)="answerYesNo(true)">
+                      <span class="btn-icon">✅</span>
+                      <span class="btn-text">Ja</span>
+                    </button>
+                    <button class="option-btn no-btn" (click)="answerYesNo(false)">
+                      <span class="btn-icon">❌</span>
+                      <span class="btn-text">Nein</span>
+                    </button>
+                  </div>
+                }
+
+                <!-- Multiple Choice Options -->
+                @if (currentQuestion.type === 'multiple-choice') {
+                  <div class="answer-options multiple-choice">
+                    @for (option of currentQuestion.options; track option) {
+                      <button 
+                        class="option-btn choice-btn"
+                        (click)="answerQuestion(option)">
+                        <span class="btn-text">{{option}}</span>
+                      </button>
+                    }
+                  </div>
+                }
+
+                <!-- Text Input -->
+                @if (currentQuestion.type === 'text') {
+                  <div class="text-input-area">
+                    <textarea 
+                      #textAnswer
+                      [value]="currentAnswer"
+                      (input)="currentAnswer = textAnswer.value"
+                      placeholder="Ihre Antwort hier eingeben..."
+                      class="text-input"
+                      rows="3">
+                    </textarea>
+                    <button 
+                      class="add-btn"
+                      [disabled]="!currentAnswer.trim()"
+                      (click)="addTextToDescription()">
+                      <span class="btn-icon">📝</span>
+                      <span class="btn-text">Zur Beschreibung hinzufügen</span>
+                    </button>
+                  </div>
+                }
+              </div>
             </div>
-            <div class="progress-count">{{answers.length}} / 5</div>
-          </div>
+          }
         </div>
-
-        <!-- Current Question -->
-        <div class="question-container" *ngIf="currentQuestion && !aiThinking">
-          <div class="question-card">
-            <div class="question-header">
-              <span class="question-icon">❓</span>
-              <h3>{{currentQuestion.text}}</h3>
-            </div>
-
-            <!-- Yes/No Options -->
-            <div class="answer-options yes-no" *ngIf="currentQuestion.type === 'yes-no'">
-              <button class="option-btn yes-btn" (click)="answerYesNo(true)">
-                <span class="btn-icon">✅</span>
-                <span class="btn-text">Ja</span>
-              </button>
-              <button class="option-btn no-btn" (click)="answerYesNo(false)">
-                <span class="btn-icon">❌</span>
-                <span class="btn-text">Nein</span>
-              </button>
-            </div>
-
-            <!-- Multiple Choice Options -->
-            <div class="answer-options multiple-choice" *ngIf="currentQuestion.type === 'multiple-choice'">
-              <button 
-                class="option-btn choice-btn"
-                *ngFor="let option of currentQuestion.options"
-                (click)="answerQuestion(option)">
-                <span class="btn-text">{{option}}</span>
-              </button>
-            </div>
-
-            <!-- Text Input -->
-            <div class="text-input-area" *ngIf="currentQuestion.type === 'text'">
-              <textarea 
-                #textAnswer
-                [value]="currentAnswer"
-                (input)="currentAnswer = textAnswer.value"
-                placeholder="Ihre Antwort hier eingeben..."
-                class="text-input"
-                rows="3">
-              </textarea>
-              <button 
-                class="add-btn"
-                [disabled]="!currentAnswer.trim()"
-                (click)="addTextToDescription()">
-                <span class="btn-icon">➕</span>
-                <span class="btn-text">Zur Beschreibung hinzufügen</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      }
     </section>
 
     <!-- Summary Section -->
-    <section class="summary-section" *ngIf="currentStep === 'summary'">
-      <div class="summary-container">
-        <div class="summary-header">
-          <div class="success-animation">
-            <div class="checkmark">✓</div>
-          </div>
-          <h2>Beschreibung vervollständigt!</h2>
-          <p>Perfekt! Ihre Problembeschreibung ist jetzt vollständig und bereit für unsere Techniker.</p>
-        </div>
-
-        <div class="final-description">
-          <h3>Finale Problembeschreibung</h3>
-          <div class="description-preview">
-            <p>{{currentDescription}}</p>
-          </div>
-        </div>
-
-        <div class="next-steps">
-          <h3>Was passiert als nächstes?</h3>
-          <div class="steps-grid">
-            <div class="step-card">
-              <div class="step-icon">📞</div>
-              <h4>Techniker wird benachrichtigt</h4>
-              <p>Ihre detaillierte Beschreibung wird an unsere Experten weitergeleitet</p>
+    @if (currentStep === 'summary') {
+      <section class="summary-section">
+        <div class="summary-container">
+          <div class="summary-header">
+            <div class="success-animation">
+              <div class="checkmark">✓</div>
             </div>
-            <div class="step-card">
-              <div class="step-icon">⏰</div>
-              <h4>Rückmeldung binnen 2 Stunden</h4>
-              <p>Sie erhalten schnell eine Rückmeldung zur Terminvereinbarung</p>
-            </div>
-            <div class="step-card">
-              <div class="step-icon">🛠️</div>
-              <h4>Professionelle Lösung</h4>
-              <p>Unser Techniker löst Ihr Problem effizient vor Ort</p>
+            <h2>Beschreibung vervollständigt!</h2>
+            <p>Perfekt! Ihre Problembeschreibung ist jetzt vollständig und bereit für unsere Techniker.</p>
+          </div>
+
+          <div class="final-description">
+            <h3>Finale Problembeschreibung</h3>
+            <div class="description-preview">
+              <p>{{currentDescription}}</p>
             </div>
           </div>
-        </div>
 
-        <div class="action-area">
-          <button class="primary-action" (click)="bookTechnician()">
-            <span class="action-icon">🚀</span>
-            <span class="action-text">Techniker jetzt buchen</span>
-          </button>
-          <button class="secondary-action" (click)="restartBooking()">
-            <span class="action-text">Neue Beschreibung erstellen</span>
-          </button>
+          <div class="next-steps">
+            <h3>Was passiert als nächstes?</h3>
+            <div class="steps-grid">
+              <div class="step-card">
+                <div class="step-icon">📞</div>
+                <h4>Techniker wird benachrichtigt</h4>
+                <p>Ihre detaillierte Beschreibung wird an unsere Experten weitergeleitet</p>
+              </div>
+              <div class="step-card">
+                <div class="step-icon">⚡</div>
+                <h4>Rückmeldung binnen 2 Stunden</h4>
+                <p>Sie erhalten schnell eine Rückmeldung zur Terminvereinbarung</p>
+              </div>
+              <div class="step-card">
+                <div class="step-icon">🛠️</div>
+                <h4>Professionelle Lösung</h4>
+                <p>Unser Techniker löst Ihr Problem effizient vor Ort</p>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </div>
-    </section>
+      </section>
+    }
   </main>
