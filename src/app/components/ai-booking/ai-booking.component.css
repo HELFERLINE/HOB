@@ -160,6 +160,32 @@
   transform: scale(0.98);
 }
 
+.section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.helferline-logo {
+  height: 60px;
+  max-width: 300px;
+  width: auto;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: transform 0.2s ease;
+}
+
+.helferline-logo:hover {
+  transform: scale(1.02);
+}
+
+.section-header p {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
 .section-header h2 {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
@@ -567,7 +593,7 @@
 @keyframes avatarThinking {
   0%, 100% { 
     transform: scale(1) rotate(0deg);
-    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 8px 32px rgba(59, 130,246, 0.3);
   }
   25% { 
     transform: scale(1.08) rotate(2deg);
@@ -776,6 +802,11 @@
   border-radius: 50%;
   background: rgba(59, 130, 246, 0.1);
   transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .yes-btn .btn-icon {
@@ -1261,6 +1292,16 @@
   .continue-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .helferline-logo {
+    height: 50px;
+    max-width: 250px;
+  }
+  
+  .section-header p {
+    font-size: 1rem;
+    padding: 0 1rem;
   }
 }
 
